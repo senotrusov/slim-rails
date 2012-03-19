@@ -1,5 +1,9 @@
-h1 New <%= singular_table_name %>
+= content_for :title do
+  | New <%= human_name %>
+
+h1 = content_for :title
 
 == render 'form'
 
-= link_to 'Back', <%= index_helper %>_path
+- if can? :index, :<%= plural_table_name %>
+  = link_to 'Back', <%= index_helper %>_path

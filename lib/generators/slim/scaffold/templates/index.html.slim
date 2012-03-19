@@ -1,23 +1,33 @@
-h1 Listing <%= plural_table_name %>
+= content_for :title do
+  | <%= plural_table_name.humanize %> listing
+
+h1 = content_for :title
 
 table
   tr
 <% attributes.each do |attribute| -%>
     th <%= attribute.human_name %>
 <% end -%>
-    th
-    th
-    th
-
+    - if can? :show, :<%= plural_table_name %>
+      th
+    - if can? :edit, :<%= plural_table_name %>
+      th
+    - if can? :destroy, :<%= plural_table_name %>
+      th
+  
   - @<%= plural_table_name %>.each do |<%= singular_table_name %>|
     tr
 <% attributes.each do |attribute| -%>
       td = <%= singular_table_name %>.<%= attribute.name %>
 <% end -%>
-      td = link_to 'Show', <%= singular_table_name %>
-      td = link_to 'Edit', edit_<%= singular_table_name %>_path(<%= singular_table_name %>)
-      td = link_to 'Destroy', <%= singular_table_name %>, :confirm => 'Are you sure?', :method => :delete
+      - if can? :show, :<%= plural_table_name %>
+        td = link_to 'Show', <%= singular_table_name %>
+      - if can? :edit, :<%= plural_table_name %>
+        td = link_to 'Edit', edit_<%= singular_table_name %>_path(<%= singular_table_name %>)
+      - if can? :destroy, :<%= plural_table_name %>
+        td = link_to 'Destroy', <%= singular_table_name %>, :confirm => 'Are you sure?', :method => :delete
 
 br
 
-= link_to 'New <%= human_name %>', new_<%= singular_table_name %>_path
+- if can? :create, :<%= plural_table_name %>
+  = link_to 'New <%= human_name %>', new_<%= singular_table_name %>_path

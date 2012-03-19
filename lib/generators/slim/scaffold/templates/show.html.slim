@@ -1,11 +1,19 @@
-p#notice = notice
+= content_for :title do
+  | <%= human_name %> #{@<%= singular_table_name %>.title}
+
+h1 = content_for :title
 
 <% attributes.each do |attribute| -%>
 p
   strong <%= attribute.human_name %>:
+  '
   = @<%= singular_table_name %>.<%= attribute.name %>
+  
 <% end -%>
 
-= link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>)
-'|
-= link_to 'Back', <%= index_helper %>_path
+- if can? :edit, :<%= plural_table_name %>
+  = link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>)
+  '  |
+
+- if can? :index, :<%= plural_table_name %>
+  = link_to 'Back', <%= index_helper %>_path
