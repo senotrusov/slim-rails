@@ -3,11 +3,17 @@
 
 h1 = content_for :title
 
+
+- if can? :create, :<%= plural_table_name %>
+  p = link_to 'New <%= human_name %>', new_<%= singular_table_name %>_path
+
+
 table
   tr
 <% attributes.each do |attribute| -%>
     th <%= attribute.human_name %>
 <% end -%>
+
     - if can? :show, :<%= plural_table_name %>
       th
     - if can? :edit, :<%= plural_table_name %>
@@ -20,14 +26,12 @@ table
 <% attributes.each do |attribute| -%>
       td = <%= singular_table_name %>.<%= attribute.name %>
 <% end -%>
+      
       - if can? :show, :<%= plural_table_name %>
         td = link_to 'Show', <%= singular_table_name %>
+
       - if can? :edit, :<%= plural_table_name %>
         td = link_to 'Edit', edit_<%= singular_table_name %>_path(<%= singular_table_name %>)
+
       - if can? :destroy, :<%= plural_table_name %>
         td = link_to 'Destroy', <%= singular_table_name %>, :confirm => 'Are you sure?', :method => :delete
-
-br
-
-- if can? :create, :<%= plural_table_name %>
-  = link_to 'New <%= human_name %>', new_<%= singular_table_name %>_path
