@@ -5,7 +5,7 @@ h1 = content_for :title
 
 <% attributes.each do |attribute| -%>
 p
-  strong <%= attribute.human_name %>:
+  strong = <%= class_name %>.human_attribute_name(:<%= attribute.name %>) + ':'
   '
   = @<%= singular_table_name %>.<%= attribute.name %>
   
